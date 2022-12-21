@@ -35,7 +35,19 @@ export async function action({ request }) {
     title: formData.get("title"),
     content: formData.get("content"),
   };
-  // can add validation
+  //validation
+  let errors = [];
+  if (noteData.title.trim().length < 3) {
+    errors.push({ message: "Invalid title or missing title" });
+  }
+
+  if (noteData.content.trim().length < 3) {
+    errors.push({ message: "Invalid content or missing content" });
+  }
+
+  if (errors.length > 0) {
+    return errors;
+  }
   const existingNotes = await getStoredNotes();
   noteData.id = new Date().toISOString();
 
@@ -45,7 +57,5 @@ export async function action({ request }) {
 
   // simple pause
   // await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
-
-  console.log(updatedNotes);
   return redirect("/notes");
 }

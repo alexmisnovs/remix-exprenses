@@ -1,4 +1,4 @@
-import { json, redirect } from "@remix-run/node";
+import { redirect } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
 import NoteList, { links as noteListLinks } from "~/components/NoteList";
@@ -42,6 +42,9 @@ export async function action({ request }) {
   const updatedNotes = existingNotes.concat(noteData);
 
   await storeNotes(updatedNotes);
+
+  // simple pause
+  // await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
 
   console.log(updatedNotes);
   return redirect("/notes");

@@ -1,18 +1,30 @@
-import { redirect } from "@remix-run/node";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
+import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storeNotes } from "~/data/notes";
 
 export default function Notes() {
+  // get data from the loader..
+  const notes = useLoaderData();
+
   return (
     <main id="content">
-      <h1>Notes will go here</h1>
       <NewNote />
+      <NoteList notes={notes} />
     </main>
   );
 }
 
 export function links() {
-  return [...newNoteLinks()];
+  return [...newNoteLinks(), ...noteListLinks()];
+}
+
+// ger requests
+export async function loader() {
+  const notes = await getStoredNotes();
+  return notes;
+  // return json(notes); can use it like this
 }
 
 // any non get request sent will trigger

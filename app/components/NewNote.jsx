@@ -8,7 +8,7 @@ function NewNote() {
 
   return (
     <Form method="post" id="note-form">
-      {data && data.map(error => <p>{error.message}</p>)}
+      {data && data.map(error => <p key={error.message}>{error.message}</p>)}
       <p>
         <label htmlFor="title">Title</label>
         <input type="text" id="title" name="title" required />

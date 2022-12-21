@@ -1,5 +1,5 @@
-import { redirect } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { json, redirect } from "@remix-run/node";
+import { useLoaderData, Link, useCatch } from "@remix-run/react";
 import NewNote, { links as newNoteLinks } from "~/components/NewNote";
 import NoteList, { links as noteListLinks } from "~/components/NoteList";
 import { getStoredNotes, storeNotes } from "~/data/notes";
@@ -23,6 +23,11 @@ export function links() {
 // ger requests
 export async function loader() {
   const notes = await getStoredNotes();
+  if (!notes || notes.length === 0) {
+    // throw 'hello' // this will render errorBoundary component
+    throw json({ message: "No notes yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
+  }
+  // and what ever we return will render the actual component
   return notes;
   // return json(notes); can use it like this
 }
@@ -58,4 +63,27 @@ export async function action({ request }) {
   // simple pause
   // await new Promise((resolve, reject) => setTimeout(() => resolve(), 2000));
   return redirect("/notes");
+}
+export function CatchBoundary() {
+  // const caughtResponse = useCatch();
+  const { data } = useCatch();
+  const message = data?.message || "Data not found";
+  return (
+    <main>
+      <NewNote />
+      <p className="info-message">{message}</p>
+    </main>
+  );
+}
+
+export function ErrorBoundary({ error }) {
+  return (
+    <main className="error">
+      <h1>An error in notes occured</h1>
+      <p>{error.message}</p>
+      <p>
+        Back to <Link to="/">safety</Link>
+      </p>
+    </main>
+  );
 }

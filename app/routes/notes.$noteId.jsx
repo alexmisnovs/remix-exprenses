@@ -36,3 +36,17 @@ export async function loader({ params }) {
 export function links() {
   return [{ rel: "stylesheet", href: styles }];
 }
+
+export function meta(data) {
+  // console.log(data);
+  const { data: selectedNote } = data;
+  if (!selectedNote) {
+    return {
+      title: "Not found | " + data.params.noteId,
+    };
+  }
+  return {
+    title: selectedNote.title,
+    description: selectedNote.content,
+  };
+}

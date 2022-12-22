@@ -87,3 +87,10 @@ export function ErrorBoundary({ error }) {
     </main>
   );
 }
+
+export function meta() {
+  return {
+    title: "All Notes",
+    description: "Manage notes",
+  };
+}

@@ -14,7 +14,7 @@ import MainNavigation from "./components/MainNavigation";
 
 export const meta = () => ({
   charset: "utf-8",
-  title: "New Remix App",
+  title: "Remix Notes",
   viewport: "width=device-width,initial-scale=1",
 });
 

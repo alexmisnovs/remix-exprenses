@@ -1,4 +1,4 @@
-import homeStyles from "~/styles/home.css";
+// import homeStyles from "~/styles/home.css";
 
 export default function expensesPage() {
   return (
@@ -8,11 +8,11 @@ export default function expensesPage() {
   );
 }
 
-export function links() {
-  return [
-    {
-      rel: "stylesheet",
-      href: homeStyles,
-    },
-  ];
-}
+// export function links() {
+//   return [
+//     {
+//       rel: "stylesheet",
+//       href: homeStyles,
+//     },
+//   ];
+// }

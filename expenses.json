@@ -1,0 +1,6 @@
+{
+  "expenses": [
+    { "title": "shopping", "amount": 12.99, "id": "e1", "date": "2022-12-23T04:32:37.506Z" },
+    { "title": "bills", "amount": 121.99, "id": "e2", "date": "2022-12-23T04:32:37.506Z" }
+  ]
+}

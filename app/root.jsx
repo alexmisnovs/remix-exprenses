@@ -9,7 +9,9 @@ import {
   useCatch,
 } from "@remix-run/react";
 
-import styles from "~/styles/main.css";
+import mainStyles from "~/styles/main.css";
+import sharedStyles from "~/styles/shared.css";
+
 import MainNavigation from "./components/MainNavigation";
 
 export const meta = () => ({
@@ -100,7 +102,24 @@ export function links() {
   return [
     {
       rel: "stylesheet",
-      href: styles,
+      href: sharedStyles,
+    },
+    {
+      rel: "stylesheet",
+      href: mainStyles,
+    },
+    {
+      rel: "preconnect",
+      href: "https://fonts.googleapis.com",
+    },
+    {
+      rel: "preconnect",
+      href: "https://fonts.gstatic.com",
+      crossOrigin: "true",
+    },
+    {
+      rel: "stylesheet",
+      href: "https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap",
     },
   ];
 }

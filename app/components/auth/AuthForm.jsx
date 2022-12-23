@@ -1,4 +1,5 @@
-import { FaLock } from 'react-icons/fa';
+import { Link } from "@remix-run/react";
+import { FaLock } from "react-icons/fa";
 
 function AuthForm() {
   return (
@@ -16,7 +17,7 @@ function AuthForm() {
       </p>
       <div className="form-actions">
         <button>Login</button>
-        <a href="/auth">Log in with existing user</a>
+        <Link to="/auth">Log in with existing user</Link>
       </div>
     </form>
   );

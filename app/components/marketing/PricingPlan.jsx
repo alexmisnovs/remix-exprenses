@@ -1,3 +1,5 @@
+import { Link } from "@remix-run/react";
+
 function PricingPlan({ title, price, perks, icon }) {
   const Icon = icon;
   return (
@@ -11,12 +13,12 @@ function PricingPlan({ title, price, perks, icon }) {
       </header>
       <div className="plan-content">
         <ol>
-          {perks.map((perk) => (
+          {perks.map(perk => (
             <li key={perk}>{perk}</li>
           ))}
         </ol>
-        <div className='actions'>
-          <a href="/not-implemented">Learn More</a>
+        <div className="actions">
+          <Link to="/not-implemented">Learn More</Link>
         </div>
       </div>
     </article>

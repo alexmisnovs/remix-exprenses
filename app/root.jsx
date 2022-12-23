@@ -12,7 +12,6 @@ import {
 import mainStyles from "~/styles/main.css";
 import sharedStyles from "~/styles/shared.css";
 
-import MainNavigation from "./components/MainNavigation";
 import MainHeader from "./components/navigation/MainHeader";
 
 export const meta = () => ({
@@ -30,7 +29,6 @@ export default function App() {
       </head>
       <body>
         <header>
-          <MainNavigation />
           <MainHeader />
         </header>
         <Outlet />

@@ -1,6 +1,5 @@
 import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import expensesStyles from "~/styles/expenses.css";
 
 import { getStoredExpenses } from "~/data/expenses";
 import ExpensesList from "~/components/expenses/ExpensesList";
@@ -12,7 +11,6 @@ export default function ExpensesLayout() {
     <>
       <Outlet />
       <main id="content">
-        <p>Shared element</p>
         <ExpensesList expenses={expenses} />
       </main>
     </>
@@ -28,13 +26,4 @@ export async function loader() {
   // and what ever we return will render the actual component
   return expenses;
   // return json(notes); can use it like this
-}
-
-export function links() {
-  return [
-    {
-      rel: "stylesheet",
-      href: expensesStyles,
-    },
-  ];
 }

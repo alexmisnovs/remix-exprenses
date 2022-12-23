@@ -13,8 +13,6 @@ export default function Analyses() {
   console.log(expenses);
   return (
     <main>
-      <h1>Analyses</h1>
-      <p>sasd</p>
       <Chart expenses={expenses} />
       <ExpenseStatistics expenses={expenses} />
     </main>

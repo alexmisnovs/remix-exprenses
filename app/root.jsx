@@ -13,6 +13,7 @@ import mainStyles from "~/styles/main.css";
 import sharedStyles from "~/styles/shared.css";
 
 import MainNavigation from "./components/MainNavigation";
+import MainHeader from "./components/navigation/MainHeader";
 
 export const meta = () => ({
   charset: "utf-8",
@@ -30,6 +31,7 @@ export default function App() {
       <body>
         <header>
           <MainNavigation />
+          <MainHeader />
         </header>
         <Outlet />
         <ScrollRestoration />

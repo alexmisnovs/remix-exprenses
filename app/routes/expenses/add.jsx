@@ -1,10 +1,12 @@
+import ExpenseForm from "~/components/expenses/ExpenseForm";
+import Modal from "~/components/util/Modal";
 import homeStyles from "~/styles/home.css";
 
-export default function addPage() {
+export default function AddExpensePage() {
   return (
-    <main id="content">
-      <h1>Expenses Add</h1>
-    </main>
+    <Modal>
+      <ExpenseForm />
+    </Modal>
   );
 }
 

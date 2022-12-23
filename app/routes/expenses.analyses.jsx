@@ -4,8 +4,9 @@ import { json } from "@remix-run/node";
 import Chart from "~/components/expenses/Chart";
 import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
 
-import homeStyles from "~/styles/home.css";
 import { getStoredExpenses } from "~/data/expenses";
+
+import expensesStyles from "~/styles/expenses.css";
 
 export default function Analyses() {
   const expenses = useLoaderData();
@@ -13,7 +14,7 @@ export default function Analyses() {
   return (
     <main>
       <h1>Analyses</h1>
-
+      <p>sasd</p>
       <Chart expenses={expenses} />
       <ExpenseStatistics expenses={expenses} />
     </main>
@@ -35,7 +36,7 @@ export function links() {
   return [
     {
       rel: "stylesheet",
-      href: homeStyles,
+      href: expensesStyles,
     },
   ];
 }

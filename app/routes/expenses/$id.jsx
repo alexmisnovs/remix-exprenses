@@ -1,18 +1,9 @@
-import homeStyles from "~/styles/home.css";
-
-export default function expenseId() {
+import ExpenseForm from "~/components/expenses/ExpenseForm";
+import Modal from "~/components/util/Modal";
+export default function UpdateExpensesPage() {
   return (
-    <main id="content">
-      <h1>ID</h1>
-    </main>
+    <Modal>
+      <ExpenseForm />
+    </Modal>
   );
-}
-
-export function links() {
-  return [
-    {
-      rel: "stylesheet",
-      href: homeStyles,
-    },
-  ];
 }

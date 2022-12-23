@@ -2,7 +2,7 @@ import { json } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { getStoredNotes } from "~/data/notes";
 
-import styles from "./../styles/note-details.css";
+import styles from "~/styles/note-details.css";
 
 export default function NoteDetailsPage() {
   const selectedNote = useLoaderData();

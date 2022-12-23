@@ -1,8 +1,14 @@
 import { Outlet } from "@remix-run/react";
 import marketingStyles from "~/styles/marketing.css";
+import MainHeader from "~/components/navigation/MainHeader";
 
 export default function ExpensesAppLayout() {
-  return <Outlet />;
+  return (
+    <>
+      <MainHeader />
+      <Outlet />
+    </>
+  );
 }
 
 export function links() {

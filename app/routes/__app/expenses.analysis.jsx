@@ -10,7 +10,6 @@ import expensesStyles from "~/styles/expenses.css";
 
 export default function Analyses() {
   const expenses = useLoaderData();
-  console.log(expenses);
   return (
     <main>
       <Chart expenses={expenses} />

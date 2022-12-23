@@ -1,18 +1,15 @@
-import homeStyles from "~/styles/home.css";
+import { json } from "@remix-run/node";
+import { getStoredExpenses } from "~/data/expenses";
 
-export default function raw() {
-  return (
-    <main id="content">
-      <h1>Expenses Raw</h1>
-    </main>
-  );
-}
+// get request triggers loader
 
-export function links() {
-  return [
-    {
-      rel: "stylesheet",
-      href: homeStyles,
-    },
-  ];
+export async function loader() {
+  const expenses = await getStoredExpenses();
+  if (!expenses || expenses.length === 0) {
+    // throw 'hello' // this will render errorBoundary component
+    throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
+  }
+  // and what ever we return will render the actual component
+  return expenses;
+  // return json(notes); can use it like this
 }

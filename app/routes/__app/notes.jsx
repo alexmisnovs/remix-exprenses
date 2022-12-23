@@ -9,10 +9,10 @@ export default function Notes() {
   const notes = useLoaderData();
 
   return (
-    <main id="content">
+    <>
       <NewNote />
       <NoteList notes={notes} />
-    </main>
+    </>
   );
 }
 

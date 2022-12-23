@@ -1,7 +1,21 @@
+import { Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
-import { getStoredExpenses } from "~/data/expenses";
 
-// get request triggers loader
+import { getStoredExpenses } from "~/data/expenses";
+import ExpensesList from "~/components/expenses/ExpensesList";
+
+export default function ExpensesLayout() {
+  const expenses = useLoaderData();
+
+  return (
+    <>
+      <Outlet />
+      <main id="content">
+        <ExpensesList expenses={expenses} />
+      </main>
+    </>
+  );
+}
 
 export async function loader() {
   const expenses = await getStoredExpenses();

@@ -12,8 +12,6 @@ import {
 import mainStyles from "~/styles/main.css";
 import sharedStyles from "~/styles/shared.css";
 
-import MainNavigation from "./components/MainNavigation";
-
 export const meta = () => ({
   charset: "utf-8",
   title: "Remix Notes",
@@ -28,9 +26,6 @@ export default function App() {
         <Links />
       </head>
       <body>
-        <header>
-          <MainNavigation />
-        </header>
         <Outlet />
         <ScrollRestoration />
         <Scripts />
@@ -52,9 +47,6 @@ export function CatchBoundary() {
         <title>{catchResponse.statusText}</title>
       </head>
       <body>
-        <header>
-          <MainNavigation />
-        </header>
         <main className="error">
           <h1>{catchResponse.statusText}</h1>
           <p>{catchResponse.data.message || "Something went wrong"}</p>
@@ -80,9 +72,6 @@ export function ErrorBoundary({ error }) {
         <title>An Error occured</title>
       </head>
       <body>
-        <header>
-          <MainNavigation />
-        </header>
         <main className="error">
           <h1>An error occured</h1>
           <p>{error.message}</p>

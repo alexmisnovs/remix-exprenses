@@ -3,7 +3,7 @@ import { Link } from "@remix-run/react";
 function Logo() {
   return (
     <h1 id="logo">
-      <Link href="/">RemixExpenses</Link>
+      <Link to="/">RemixExpenses</Link>
     </h1>
   );
 }

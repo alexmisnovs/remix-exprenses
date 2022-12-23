@@ -53,7 +53,7 @@ export function CatchBoundary() {
       </head>
       <body>
         <header>
-          <MainNavigation />
+          <MainHeader />
         </header>
         <main className="error">
           <h1>{catchResponse.statusText}</h1>
@@ -81,7 +81,7 @@ export function ErrorBoundary({ error }) {
       </head>
       <body>
         <header>
-          <MainNavigation />
+          <MainHeader />
         </header>
         <main className="error">
           <h1>An error occured</h1>

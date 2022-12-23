@@ -1,8 +1,10 @@
-import { Outlet, useLoaderData } from "@remix-run/react";
+import { Link, Outlet, useLoaderData } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { getStoredExpenses } from "~/data/expenses";
 import ExpensesList from "~/components/expenses/ExpensesList";
+
+import { FaPlane, FaDownload } from "react-icons/fa";
 
 export default function ExpensesLayout() {
   const expenses = useLoaderData();
@@ -10,7 +12,17 @@ export default function ExpensesLayout() {
   return (
     <>
       <Outlet />
-      <main id="content">
+      <main>
+        <section id="expenses-actions">
+          <Link to="add">
+            <FaPlane />
+            Add An Expense
+          </Link>
+          <a href="/expenses/raw">
+            <FaDownload />
+            Download Raw
+          </a>
+        </section>
         <ExpensesList expenses={expenses} />
       </main>
     </>

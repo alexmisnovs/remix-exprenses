@@ -1,6 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { useCatch, Link } from "@remix-run/react";
-import ExpensesHeader from "~/components/navigation/ExpensesHeader";
+import { useCatch } from "@remix-run/react";
 
 // without the actual component it will only output jason from the response
 export default function CatchAll() {

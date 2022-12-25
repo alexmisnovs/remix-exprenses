@@ -1,10 +1,14 @@
-import { Link } from "@remix-run/react";
+import { Link, Form } from "@remix-run/react";
 
 function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
+  // const handleSubmmit = e => {
+  //   e.preventDefault();
+  //   console.log("submitted");
+  // };
   return (
-    <form method="post" className="form" id="expense-form">
+    <Form method="post" className="form" id="expense-form">
       <p>
         <label htmlFor="title">Expense Title</label>
         <input type="text" id="title" name="title" required maxLength={30} />
@@ -21,10 +25,10 @@ function ExpenseForm() {
         </p>
       </div>
       <div className="form-actions">
-        <button>Save Expense</button>
+        <button type="submit">Save Expense</button>
         <Link to="..">Cancel</Link>
       </div>
-    </form>
+    </Form>
   );
 }
 

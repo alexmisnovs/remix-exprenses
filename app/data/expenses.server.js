@@ -14,3 +14,14 @@ export async function addExpense(expenseData) {
     throw error;
   }
 }
+
+// get all expenses
+export async function getAllExpenses() {
+  try {
+    const expenses = await prisma.expense.findMany();
+    return expenses;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}

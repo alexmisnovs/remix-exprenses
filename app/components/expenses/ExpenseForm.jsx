@@ -1,14 +1,25 @@
-import { Link, Form } from "@remix-run/react";
+import { Link, Form, useActionData, useTransition as useNavigation } from "@remix-run/react";
 
 function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
+  const navigation = useNavigation();
+  const isSubmitting = navigation.state === "submitting";
+  const validationErrors = useActionData();
   // const handleSubmmit = e => {
   //   e.preventDefault();
   //   console.log("submitted");
   // };
   return (
     <Form method="post" className="form" id="expense-form">
+      {/* {data && data.map(error => <p key={error.message}>{error.message}</p>)} this version for arrays */}
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map(error => (
+            <li key={error}>{error}</li>
+          ))}
+        </ul>
+      )}
       <p>
         <label htmlFor="title">Expense Title</label>
         <input type="text" id="title" name="title" required maxLength={30} />

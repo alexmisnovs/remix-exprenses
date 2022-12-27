@@ -1,17 +1,37 @@
-import { Link, Form, useActionData, useTransition as useNavigation } from "@remix-run/react";
+import {
+  Link,
+  Form,
+  useActionData,
+  useTransition as useNavigation,
+  useSubmit,
+} from "@remix-run/react";
 
 function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
 
   const navigation = useNavigation();
-  const isSubmitting = navigation.state === "submitting";
+  const isSubmitting = navigation.state !== "idle";
+
   const validationErrors = useActionData();
+
+  // in case I need to submit form programmatically
+  // const submit = useSubmit();
+
   // const handleSubmmit = e => {
   //   e.preventDefault();
   //   console.log("submitted");
+  //   submit(e.target, {
+  //     //path:
+  //     method: "post",
+  //   });
   // };
   return (
-    <Form method="post" className="form" id="expense-form">
+    <Form
+      method="post"
+      className="form"
+      id="expense-form"
+      //  onSubmit={handleSubmmit}
+    >
       {/* {data && data.map(error => <p key={error.message}>{error.message}</p>)} this version for arrays */}
       {validationErrors && (
         <ul>
@@ -36,7 +56,9 @@ function ExpenseForm() {
         </p>
       </div>
       <div className="form-actions">
-        <button type="submit">Save Expense</button>
+        <button disabled={isSubmitting} type="submit">
+          {isSubmitting ? "Saving..." : "Save Expense"}
+        </button>
         <Link to="..">Cancel</Link>
       </div>
     </Form>

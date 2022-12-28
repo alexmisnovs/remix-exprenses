@@ -1,7 +1,7 @@
 import { Link, Outlet, useLoaderData, useCatch } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
-import { getStoredExpenses } from "~/data/expenses";
+// import { getStoredExpenses } from "~/data/expenses";
 import { getAllExpenses } from "~/data/expenses.server";
 import ExpensesList from "~/components/expenses/ExpensesList";
 

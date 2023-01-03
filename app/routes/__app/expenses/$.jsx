@@ -1,5 +1,5 @@
 import { json, redirect } from "@remix-run/node";
-import { useCatch, Link } from "@remix-run/react";
+import { useCatch } from "@remix-run/react";
 
 // without the actual component it will only output jason from the response
 export default function CatchAll() {
@@ -10,6 +10,7 @@ export async function loader({ params }) {
   if (params["*"] === "exp") {
     return redirect("/expenses");
   }
+
   const message = `Sorry we can't find this page | ${params["*"]}`;
 
   throw json({ message }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
@@ -21,9 +22,9 @@ export function CatchBoundary() {
   return (
     <main>
       <p className="info-message">{message}</p>
-      <p className="info-message">
-        Back to <Link to="/">Home</Link>
-      </p>
+      {/* <p className="info-message">
+        Back to <Link to="/expenses">Expenses</Link>
+      </p> */}
     </main>
   );
 }

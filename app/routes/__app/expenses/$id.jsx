@@ -1,4 +1,4 @@
-import { useNavigate, useLoaderData } from "@remix-run/react";
+import { useNavigate, useLoaderData, useMatches, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
 import ExpenseForm from "~/components/expenses/ExpenseForm";
@@ -14,24 +14,27 @@ export default function UpdateExpensesPage() {
     navigate("..");
   };
 
-  const expenseData = useLoaderData();
-
+  const matches = useMatches();
+  const params = useParams();
+  const expenses = matches.find(match => match.id === "routes/__app/expenses").data;
+  const expense = expenses.find(expense => expense.id === params.id);
   return (
     <Modal onClose={closeHandler}>
-      <ExpenseForm expense={expenseData} />
+      <ExpenseForm expense={expense} />
     </Modal>
   );
 }
 
-export async function loader({ params }) {
-  const { id } = params;
-  // console.log(id);
-  // get data from database
+// I can use parent loaders details to minimise the amount of request
+// export async function loader({ params }) {
+//   const { id } = params;
+//   // console.log(id);
+//   // get data from database
 
-  const expense = await getExpenseById(id);
-  // console.log(expense);
-  return expense;
-}
+//   const expense = await getExpenseById(id);
+//   // console.log(expense);
+//   return expense;
+// }
 
 // any non get request sent will trigger
 export async function action({ request, params }) {
@@ -45,7 +48,6 @@ export async function action({ request, params }) {
     date: updatedFormData.get("date"),
   };
 
-  console.log(updatedExpenseData);
   // return null;
   //Validation, why would you even throw the error at the end? Pobably a copy paste from another project
   try {

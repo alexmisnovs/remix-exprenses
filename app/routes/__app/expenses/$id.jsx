@@ -1,5 +1,6 @@
 import { useNavigate, useLoaderData } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
+
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
 import { getExpenseById, updateExpense } from "~/data/expenses.server";
@@ -33,8 +34,9 @@ export async function loader({ params }) {
 }
 
 // any non get request sent will trigger
-export async function action({ request }) {
+export async function action({ request, params }) {
   const updatedFormData = await request.formData();
+  const { id } = params;
 
   // const expenseData = Object.fromEntries(formData); can do it this way
   const updatedExpenseData = {
@@ -44,7 +46,7 @@ export async function action({ request }) {
   };
 
   console.log(updatedExpenseData);
-  return null;
+  // return null;
   //Validation, why would you even throw the error at the end? Pobably a copy paste from another project
   try {
     validateExpenseInput(updatedExpenseData);
@@ -66,7 +68,7 @@ export async function action({ request }) {
   //   return errors;
   // }
 
-  await updateExpense(updatedExpenseData);
+  await updateExpense(id, updatedExpenseData);
 
   // simple pause
   // await new Promise((resolve, reject) => setTimeout(() => resolve(), 3000));

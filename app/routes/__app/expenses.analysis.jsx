@@ -4,12 +4,13 @@ import { json } from "@remix-run/node";
 import Chart from "~/components/expenses/Chart";
 import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
 
-import { getStoredExpenses } from "~/data/expenses";
+import { getAllExpenses } from "~/data/expenses.server";
 
 import expensesStyles from "~/styles/expenses.css";
 
 export default function Analyses() {
   const expenses = useLoaderData();
+  console.log(expenses);
   return (
     <main>
       <Chart expenses={expenses} />
@@ -19,7 +20,7 @@ export default function Analyses() {
 }
 
 export async function loader() {
-  const expenses = await getStoredExpenses();
+  const expenses = await getAllExpenses();
   if (!expenses || expenses.length === 0) {
     // throw 'hello' // this will render errorBoundary component
     throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBoundary component

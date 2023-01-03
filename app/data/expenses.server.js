@@ -54,3 +54,17 @@ export async function updateExpense(id, updatedExpenseData) {
     throw error;
   }
 }
+
+export async function deleteExpenseById(passedId) {
+  try {
+    const deletedExpense = await prisma.expense.delete({
+      where: { id: passedId },
+      select: {
+        id: true,
+      },
+    });
+    return deletedExpense;
+  } catch (e) {
+    console.log(e.message);
+  }
+}

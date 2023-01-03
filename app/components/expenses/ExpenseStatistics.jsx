@@ -1,7 +1,7 @@
-import { useMemo } from 'react';
+import { useMemo } from "react";
 
 function calculateSummaryStatistics(expenses) {
-  const amounts = expenses.map((expense) => +expense.amount);
+  const amounts = expenses.map(expense => +expense.amount);
   const maxAmount = Math.max(...amounts);
   const minAmount = Math.min(...amounts);
   const sum = expenses.reduce((prevVal, curVal) => curVal.amount + prevVal, 0);
@@ -21,7 +21,7 @@ function ExpenseStatistics({ expenses }) {
       <h2>Summary Statistics</h2>
       <dl id="expense-statistics">
         <div>
-          <dt>Total</dt>
+          <dt>Total:</dt>
           <dd>${sum.toFixed(2)}</dd>
         </div>
         <div>

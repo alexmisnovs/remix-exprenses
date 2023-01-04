@@ -30,12 +30,14 @@ export async function getAllExpenses() {
 
 export async function getExpenseById(passedId) {
   try {
-    const expense = await prisma.expense.findFirstOrThrow({
+    const expense = await prisma.expense.findFirst({
       where: { id: passedId },
     });
     return expense;
   } catch (e) {
     console.log(e.message);
+    // return 0;
+    // throw new Error(`Can't get expense with id of ${passedId}`);
   }
 }
 

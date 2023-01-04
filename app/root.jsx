@@ -12,8 +12,6 @@ import {
 import mainStyles from "~/styles/main.css";
 import sharedStyles from "~/styles/shared.css";
 
-import Error from "~/components/util/Error";
-
 export const meta = () => ({
   charset: "utf-8",
   title: "Remix Notes",
@@ -58,7 +56,6 @@ export function CatchBoundary() {
         <title>{catchResponse.statusText}</title>
       </head>
       <body>
-        <Error title={catchResponse.statusText}></Error>
         <main className="error">
           <h1>{catchResponse.statusText}</h1>
           <p>{catchResponse.data?.message || "Something went wrong"}</p>

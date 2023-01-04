@@ -1,9 +1,12 @@
 import { useNavigate, useMatches, useParams, useCatch } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
+import { FaExclamationCircle } from "react-icons/fa";
+
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
-import { updateExpense, deleteExpenseById } from "~/data/expenses.server";
+
+import { updateExpense, deleteExpenseById, getExpenseById } from "~/data/expenses.server";
 import { validateExpenseInput } from "~/data/validation.server";
 
 export default function UpdateExpensesPage() {
@@ -22,8 +25,8 @@ export default function UpdateExpensesPage() {
   expense = expenses.find(expense => expense.id === params.id);
 
   if (!expense) {
-    throw new Error(`Couldn't find the expnse with id : ${params.id}`);
-    // throw json({ message: "Can't find " }, { status: 404, statusText: "Expense Not Found" }); // this will render the CatchBounday component
+    // Catch boundary will only work if we throw it in the loader or action
+    throw new Error(`Couldn't find the expense with id : ${params.id}`);
   }
 
   return (
@@ -33,13 +36,20 @@ export default function UpdateExpensesPage() {
   );
 }
 
-// I can use parent loaders details to minimise the amount of request
+// I can use parent loaders details to minimise the amount of requests
+// However, I wont be able to throw json from the comoponents, only new Error..
 // export async function loader({ params }) {
 //   const { id } = params;
 //   // console.log(id);
 //   // get data from database
 
 //   const expense = await getExpenseById(id);
+//   if (!expense) {
+//     throw json(
+//       { message: "Can't find the expense" },
+//       { status: 404, statusText: "Expense Not Found" }
+//     ); // this will render the CatchBounday component
+//   }
 //   // console.log(expense);
 //   return expense;
 // }
@@ -47,11 +57,6 @@ export default function UpdateExpensesPage() {
 // any non get request sent will trigger
 export async function action({ request, params }) {
   const { id } = params;
-  // maybe add a check for a GET method here
-  if (request.method === "GET") {
-    console.log("Method GET");
-    // check if we can find the actual expense to update
-  }
 
   //if we get a delete request
   if (request.method === "DELETE") {
@@ -99,28 +104,32 @@ export async function action({ request, params }) {
 }
 
 export function CatchBoundary() {
-  const { data } = useCatch();
-  const message = data?.message || "Data not found";
+  const catchResponse = useCatch();
+  const message = catchResponse.data?.message || "Data not found";
   return (
     <main>
-      <p>Cant find </p>
-      <p className="info-message">{message}</p>
-      {/* <p className="info-message">
-        Back to <Link to="/expenses">Expenses</Link>
-      </p> */}
+      <div className="error">
+        <div className="icon">
+          <FaExclamationCircle />
+        </div>
+        <h2>{catchResponse.statusText}</h2>
+        <p>{message}</p>
+      </div>
     </main>
   );
 }
 
 // will catxh all unhandled errors
 export function ErrorBoundary({ error }) {
-  console.error(error);
   return (
     <main>
-      <p className="info-message">{error.message}</p>
-      {/* <p className="info-message">
-        Back to <Link to="/expenses">Expenses</Link>
-      </p> */}
+      <div className="error">
+        <div className="icon">
+          <FaExclamationCircle />
+        </div>
+        <h2>Something's off..</h2>
+        <p>{error.message}</p>
+      </div>
     </main>
   );
 }

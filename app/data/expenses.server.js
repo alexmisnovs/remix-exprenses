@@ -65,6 +65,8 @@ export async function deleteExpenseById(passedId) {
     });
     return deletedExpense;
   } catch (e) {
+    // make sure we throw a good message here
+    // throw new Error('failed to delete')
     console.log(e.message);
   }
 }

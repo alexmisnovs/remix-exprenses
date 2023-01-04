@@ -24,6 +24,10 @@ export default function AddExpensePage() {
 
 // any non get request sent will trigger
 export async function action({ request }) {
+  if (request.method === "get") {
+    console.log("I am firing now ADD.jsc");
+  }
+
   const formData = await request.formData();
 
   // const expenseData = Object.fromEntries(formData); can do it this way

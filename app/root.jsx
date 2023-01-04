@@ -12,26 +12,37 @@ import {
 import mainStyles from "~/styles/main.css";
 import sharedStyles from "~/styles/shared.css";
 
+import Error from "~/components/util/Error";
+
 export const meta = () => ({
   charset: "utf-8",
   title: "Remix Notes",
   viewport: "width=device-width,initial-scale=1",
 });
 
-export default function App() {
+function Document({ title, children }) {
   return (
     <html lang="en">
       <head>
+        <title>{title}</title>
         <Meta />
         <Links />
       </head>
       <body>
-        <Outlet />
+        {children}
         <ScrollRestoration />
         <Scripts />
         <LiveReload />
       </body>
     </html>
+  );
+}
+
+export default function App() {
+  return (
+    <Document>
+      <Outlet />
+    </Document>
   );
 }
 // will catch all unhandled error responses
@@ -47,9 +58,10 @@ export function CatchBoundary() {
         <title>{catchResponse.statusText}</title>
       </head>
       <body>
+        <Error title={catchResponse.statusText}></Error>
         <main className="error">
           <h1>{catchResponse.statusText}</h1>
-          <p>{catchResponse.data.message || "Something went wrong"}</p>
+          <p>{catchResponse.data?.message || "Something went wrong"}</p>
           <p>
             Back to <Link to="/">safety</Link>
           </p>

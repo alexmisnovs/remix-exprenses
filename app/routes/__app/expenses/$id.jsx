@@ -1,9 +1,9 @@
-import { useNavigate, useLoaderData, useMatches, useParams, RemixEntry } from "@remix-run/react";
+import { useNavigate, useMatches, useParams } from "@remix-run/react";
 import { redirect } from "@remix-run/node";
 
 import ExpenseForm from "~/components/expenses/ExpenseForm";
 import Modal from "~/components/util/Modal";
-import { getExpenseById, updateExpense, deleteExpenseById } from "~/data/expenses.server";
+import { updateExpense, deleteExpenseById } from "~/data/expenses.server";
 import { validateExpenseInput } from "~/data/validation.server";
 
 export default function UpdateExpensesPage() {

@@ -40,45 +40,47 @@ export default function UpdateExpensesPage() {
 export async function action({ request, params }) {
   const { id } = params;
 
-  if (request.method !== "DELETE") {
-    const updatedFormData = await request.formData();
-
-    // const expenseData = Object.fromEntries(formData); can do it this way
-    const updatedExpenseData = {
-      title: updatedFormData.get("title"),
-      amount: updatedFormData.get("amount"),
-      date: updatedFormData.get("date"),
-    };
-
-    // return null;
-    //Validation, why would you even throw the error at the end? Pobably a copy paste from another project
-    try {
-      validateExpenseInput(updatedExpenseData);
-    } catch (error) {
-      return error;
-    }
-
-    // //validation old way using an array
-    // let errors = [];
-    // if (expenseData.title.trim().length < 3) {
-    //   errors.push({ message: "Invalid title or missing title" });
-    // }
-
-    // if (expenseData.amount.trim().length < 1) {
-    //   errors.push({ message: "Invalid amount or missing amount" });
-    // }
-
-    // if (errors.length > 0) {
-    //   return errors;
-    // }
-
-    await updateExpense(id, updatedExpenseData);
-    // simple pause
-    // await new Promise((resolve, reject) => setTimeout(() => resolve(), 3000));
+  //if we get a delete request
+  if (request.method === "DELETE") {
+    const deletedExpenseId = await deleteExpenseById(id);
+    // console.log(deletedExpenseId);
     return redirect("/expenses");
   }
-  //else lets delete the record.
-  const deletedExpenseId = await deleteExpenseById(id);
-  console.log(deletedExpenseId);
+
+  // if not delete we do the update
+  const updatedFormData = await request.formData();
+
+  // const expenseData = Object.fromEntries(formData); can do it this way
+  const updatedExpenseData = {
+    title: updatedFormData.get("title"),
+    amount: updatedFormData.get("amount"),
+    date: updatedFormData.get("date"),
+  };
+
+  // return null;
+  //Validation, why would you even throw the error at the end? Pobably a copy paste from another project
+  try {
+    validateExpenseInput(updatedExpenseData);
+  } catch (error) {
+    return error;
+  }
+
+  // //validation old way using an array
+  // let errors = [];
+  // if (expenseData.title.trim().length < 3) {
+  //   errors.push({ message: "Invalid title or missing title" });
+  // }
+
+  // if (expenseData.amount.trim().length < 1) {
+  //   errors.push({ message: "Invalid amount or missing amount" });
+  // }
+
+  // if (errors.length > 0) {
+  //   return errors;
+  // }
+
+  await updateExpense(id, updatedExpenseData);
+  // simple pause
+  // await new Promise((resolve, reject) => setTimeout(() => resolve(), 3000));
   return redirect("/expenses");
 }

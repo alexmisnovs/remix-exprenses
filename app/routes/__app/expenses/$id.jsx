@@ -20,9 +20,12 @@ export default function UpdateExpensesPage() {
   const matches = useMatches();
   const params = useParams();
   let expense;
+  // what if we don't have any expenses?
 
   const expenses = matches.find(match => match.id === "routes/__app/expenses").data;
-  expense = expenses.find(expense => expense.id === params.id);
+  if (expenses) {
+    expense = expenses.find(expense => expense.id === params.id);
+  }
 
   if (!expense) {
     // Catch boundary will only work if we throw it in the loader or action

@@ -9,9 +9,9 @@ import { FaPlane, FaDownload, FaExclamationCircle } from "react-icons/fa";
 
 export default function ExpensesLayout() {
   const expenses = useLoaderData();
-  if (!expenses) {
-    throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
-  }
+  // if (!expenses) {
+  //   throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
+  // }
   return (
     <>
       <Outlet />
@@ -48,7 +48,12 @@ export async function loader() {
   const expenses = await getAllExpenses();
   if (!expenses || expenses.length === 0) {
     // throw 'hello' // this will render errorBoundary component
-    throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
+
+    // throw new Error("We couldn't find any expenses");
+    throw json(
+      { message: "Please add some bellow" },
+      { status: 404, statusText: "No expneses found." }
+    ); // this will render the CatchBounday component
   }
   // and what ever we return will render the actual component
   return expenses;
@@ -66,6 +71,13 @@ export function ErrorBoundary({ error }) {
         <h2>Something's off..</h2>
         <p>{error.message}</p>
       </div>
+      <section id="expenses-actions">
+        <a href="expenses/add">
+          <FaPlane />
+          Add An Expense
+        </a>
+      </section>
+      <Outlet />
     </main>
   );
 }
@@ -82,6 +94,18 @@ export function CatchBoundary() {
         <h2>{catchResponse.statusText}</h2>
         <p>{message}</p>
       </div>
+      {/* <p>I got to expenses file catch boundary</p> */}
+      {/* <p className="info-message">{message}</p> */}
+      {/* <p className="info-message">
+        Back to <Link to="/expenses">Expenses</Link>
+      </p> */}
+      <section id="expenses-actions">
+        <a href="expenses/add">
+          <FaPlane />
+          Add An Expense
+        </a>
+      </section>
+      <Outlet />
     </main>
   );
 }

@@ -1,5 +1,7 @@
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useCatch } from "@remix-run/react";
 import { json } from "@remix-run/node";
+
+import { FaExclamationCircle } from "react-icons/fa";
 
 import Chart from "~/components/expenses/Chart";
 import ExpenseStatistics from "~/components/expenses/ExpenseStatistics";
@@ -23,7 +25,10 @@ export async function loader() {
   const expenses = await getAllExpenses();
   if (!expenses || expenses.length === 0) {
     // throw 'hello' // this will render errorBoundary component
-    throw json({ message: "No expenses yet" }, { status: 404, statusText: "Not Found" }); // this will render the CatchBoundary component
+    throw json(
+      { message: "System has nothing to display." },
+      { status: 404, statusText: "No expenses yet" }
+    ); // this will render the CatchBoundary component
   }
   // and what ever we return will render the actual component
   return expenses;
@@ -37,4 +42,20 @@ export function links() {
       href: expensesStyles,
     },
   ];
+}
+
+export function CatchBoundary() {
+  const catchResponse = useCatch();
+  const message = catchResponse.data?.message || "Data not found";
+  return (
+    <main>
+      <div className="error">
+        <div className="icon">
+          <FaExclamationCircle />
+        </div>
+        <h2>{catchResponse.statusText}</h2>
+        <p>{message}</p>
+      </div>
+    </main>
+  );
 }

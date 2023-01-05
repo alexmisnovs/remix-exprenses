@@ -1,5 +1,8 @@
 import AuthForm from "~/components/auth/AuthForm";
 import authStyles from "~/styles/auth.css";
+import { validateCredentials } from "~/data/validation.server";
+import { signup } from "~/data/auth.server";
+import { redirect } from "react-router";
 
 export default function authPage() {
   return (
@@ -20,11 +23,27 @@ export async function action({ request }) {
   const formData = await request.formData();
   // validate the user data
   const credentials = Object.fromEntries(formData);
-  console.log(credentials);
-  if (authMode === "login") {
-    // login logic
-  } else {
-    //signup logic
+  try {
+    validateCredentials(credentials);
+  } catch (err) {
+    return err; // to use it with the useActionData hook
+  }
+
+  try {
+    if (authMode === "login") {
+      // login logic
+    } else {
+      //signup logic
+      await signup(credentials);
+      // console.log(result);
+      return redirect("/expenses");
+    }
+  } catch (error) {
+    if (error.status === 422) {
+      console.log("got to catch");
+
+      return { credentials: error.message };
+    }
   }
   return null;
 }

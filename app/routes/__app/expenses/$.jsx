@@ -14,9 +14,10 @@ export async function loader({ params }) {
 
   const message = `Sorry we can't find this page | ${params["*"]}`;
 
-  throw json({ message }, { status: 404, statusText: "Not Found" }); // this will render the CatchBounday component
+  throw json({ message }, { status: 404, statusText: "Page Not Found" }); // this will render the CatchBounday component
 }
 
+// Execures when we throw Response, but ONLY if we do it in the loader or action
 export function CatchBoundary() {
   const catchResponse = useCatch();
   const message = catchResponse.data?.message || "Data not found";

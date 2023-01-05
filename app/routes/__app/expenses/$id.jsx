@@ -1,4 +1,4 @@
-import { useNavigate, useMatches, useParams, useCatch } from "@remix-run/react";
+import { useNavigate, useParams, useCatch, useLoaderData } from "@remix-run/react";
 import { json, redirect } from "@remix-run/node";
 
 import { FaExclamationCircle } from "react-icons/fa";
@@ -16,22 +16,15 @@ export default function UpdateExpensesPage() {
     //navigate programmatically
     navigate("..");
   };
-
-  const matches = useMatches();
-  const params = useParams();
-  let expense;
   // what if we don't have any expenses?
-
-  const expenses = matches.find(match => match.id === "routes/__app/expenses").data;
-  if (expenses) {
-    expense = expenses.find(expense => expense.id === params.id);
-  }
-
+  const params = useParams();
+  //what if we use pagination on the expenses page? I think its an overkill
+  const expense = useLoaderData();
   if (!expense) {
-    // Catch boundary will only work if we throw it in the loader or action
-    throw new Error(`Couldn't find the expense with id : ${params.id}`);
+    const error = new Error(`Can't find expense with ID : ${params.id}`);
+    error.stack = "Expense Not Found";
+    throw error;
   }
-
   return (
     <Modal onClose={closeHandler}>
       <ExpenseForm expense={expense} />
@@ -41,21 +34,22 @@ export default function UpdateExpensesPage() {
 
 // I can use parent loaders details to minimise the amount of requests
 // However, I wont be able to throw json from the comoponents, only new Error..
-// export async function loader({ params }) {
-//   const { id } = params;
-//   // console.log(id);
-//   // get data from database
+export async function loader({ params }) {
+  const { id } = params;
+  // console.log(id);
+  // get data from database
 
-//   const expense = await getExpenseById(id);
-//   if (!expense) {
-//     throw json(
-//       { message: "Can't find the expense" },
-//       { status: 404, statusText: "Expense Not Found" }
-//     ); // this will render the CatchBounday component
-//   }
-//   // console.log(expense);
-//   return expense;
-// }
+  const expense = await getExpenseById(id);
+  if (!expense) {
+    //thow Response or throw an error
+    throw json(
+      { message: `Can't find expense with ID : ${id}` },
+      { status: 404, statusText: "Expense Not Found" }
+    ); // this will render the CatchBounday component
+  }
+  // console.log(expense);
+  return expense;
+}
 
 // any non get request sent will trigger
 export async function action({ request, params }) {
@@ -85,20 +79,6 @@ export async function action({ request, params }) {
   } catch (error) {
     return error;
   }
-
-  // //validation old way using an array
-  // let errors = [];
-  // if (expenseData.title.trim().length < 3) {
-  //   errors.push({ message: "Invalid title or missing title" });
-  // }
-
-  // if (expenseData.amount.trim().length < 1) {
-  //   errors.push({ message: "Invalid amount or missing amount" });
-  // }
-
-  // if (errors.length > 0) {
-  //   return errors;
-  // }
 
   await updateExpense(id, updatedExpenseData);
   // simple pause
@@ -130,7 +110,7 @@ export function ErrorBoundary({ error }) {
         <div className="icon">
           <FaExclamationCircle />
         </div>
-        <h2>Something's off..</h2>
+        <h2>{error.stack}</h2>
         <p>{error.message}</p>
       </div>
     </main>

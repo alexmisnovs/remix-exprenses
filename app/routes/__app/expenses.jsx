@@ -47,13 +47,17 @@ export default function ExpensesLayout() {
 export async function loader() {
   const expenses = await getAllExpenses();
   if (!expenses || expenses.length === 0) {
-    // throw 'hello' // this will render errorBoundary component
-
-    // throw new Error("We couldn't find any expenses");
+    // const e = new Error("Please add expenses first");
+    // //  Because remix doesn't support adding any additional parameters to the error, it seems the only thing we can modify is either message or Stack..
+    // // in this case stack can be modified because its obvious whats wrong here.
+    // e.stack = "No expenses found";
+    // // Catch boundary will only work if we throw it in the loader or action. definitely room for improvement
+    // throw e;
+    // this will render the CatchBounday component
     throw json(
       { message: "Please add some bellow" },
       { status: 404, statusText: "No expneses found." }
-    ); // this will render the CatchBounday component
+    );
   }
   // and what ever we return will render the actual component
   return expenses;
@@ -68,11 +72,11 @@ export function ErrorBoundary({ error }) {
         <div className="icon">
           <FaExclamationCircle />
         </div>
-        <h2>Something's off..</h2>
+        <h2>{error.stack}</h2>
         <p>{error.message}</p>
       </div>
       <section id="expenses-actions">
-        <a href="expenses/add">
+        <a href="/expenses">
           <FaPlane />
           Add An Expense
         </a>
@@ -100,7 +104,7 @@ export function CatchBoundary() {
         Back to <Link to="/expenses">Expenses</Link>
       </p> */}
       <section id="expenses-actions">
-        <a href="expenses/add">
+        <a href="/expenses/add">
           <FaPlane />
           Add An Expense
         </a>

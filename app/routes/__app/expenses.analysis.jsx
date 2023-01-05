@@ -1,4 +1,4 @@
-import { useLoaderData, useCatch } from "@remix-run/react";
+import { useLoaderData, useCatch, Link } from "@remix-run/react";
 import { json } from "@remix-run/node";
 
 import { FaExclamationCircle } from "react-icons/fa";
@@ -55,6 +55,9 @@ export function CatchBoundary() {
         </div>
         <h2>{catchResponse.statusText}</h2>
         <p>{message}</p>
+        <p>
+          Add some <Link to="../expenses">here</Link>
+        </p>
       </div>
     </main>
   );
